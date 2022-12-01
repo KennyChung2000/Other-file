@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="my.css" /> 
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
+</head>
+<bod onload>
+    <div class=" container-fluid">          
+        <table class="table table-hover">                                                                                   <!--表格位置 -->
+            <thead>
+                <tr>
+                    <th scope="col">時間</th>
+                    <th scope="col">類別</th>
+                    <th scope="col">$</th>
+                    <th scope="col">備註</th>
+                    <th scope="col">delete</th>
+                </tr>
+            </thead>
+            <tbody id="tbody1">                                                                                             <!--資料新增位置 -->
+            </tbody>
+        </table>
+    </div>
+    <div class="container">
+        <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModalCenter" role="button" id="record_btn">開始記帳!</button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+
+    <!-- ########################################################################################################################################################### -->
+
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">請輸入金額</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <button type="button" class="btn btn-outline-secondary" id="button1">項目</button>                                 <!--類別輸入框 -->
+                            <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="javascript: void(0)" onclick="change('食物')">食物</a>
+                                <a class="dropdown-item" href="javascript: void(0)" onclick="change('服裝')">服裝</a>
+                                <a class="dropdown-item" href="javascript: void(0)" onclick="change('交通')">交通</a>
+                                <a class="dropdown-item" href="javascript: void(0)" onclick="change('水電')">水電</a>
+                                <a class="dropdown-item" href="javascript: void(0)" onclick="change('生活用品')">生活用品</a>
+                                <a class="dropdown-item" href="javascript: void(0)" onclick="change('娛樂')">娛樂</a>
+                                <div role="separator" class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="javascript: void(0)" onclick="change('其他')">其他</a>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Text input with segmented dropdown button" id="cash_input">        <!--金錢輸入框 -->
+                        <input type="text" name="date" class="form-control datepicker" value="02-16-2012" id="time_value">                     <!--時間輸入框 -->
+                    </div>
+                    <div class="mb-3 row">                                                                                                     
+                        <label for="remark" class="col-sm-2 col-form-label">備註</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="remark">                                                            <!--備註輸入框 -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>                                        <!--關閉按鈕 -->
+                    <button type="button" class="btn btn-primary" onclick="save()" data-dismiss="modal">Save changes</button>                                        <!--儲存按鈕 -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-firestore.js"></script>
+
+    <script>
+        //Firebase連線
+        const firebaseConfig = {
+          apiKey: "AIzaSyCh-jnc2fmvCTKyYFPiLFuV2wR-yhfTXtA",
+          authDomain: "todolist-practice-da748.firebaseapp.com",
+          projectId: "todolist-practice-da748",
+          storageBucket: "todolist-practice-da748.appspot.com",
+          messagingSenderId: "332098523145",
+          appId: "1:332098523145:web:b634c0d6118256682ca8d8"
+        };
+
+        //Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        function save() {                                                                                                                       //儲存輸入資料
+            // var times = localStorage.getItem('times');
+            var time_select = document.getElementById("time_value").value;
+            var category = document.getElementById("button1").innerHTML;
+            var cash = document.getElementById("cash_input").value;
+            var remark = document.getElementById("remark").value;
+            var object_id;
+            if(cash!=""){
+                //上傳
+                db.collection('users')
+                .add({
+                time:time_select,
+                type:category,
+                money:cash,
+                title:remark,
+                })
+                .then(function(docRef) {
+                    console.log('Document written with ID: ', docRef.id)
+                })
+                .catch(function(error) {
+                    console.error('Error adding document: ', error)
+                })
+            }
+            add_list(time_select,category,cash,remark,object_id);
+        }
+        
+        function change(x) {                                                                                                                    //改變下拉選單
+            document.getElementById("button1").innerHTML = x;
+        }
+
+        //監聽firebase
+        const observer = db.collection('users').onSnapshot(docSnapshot => {
+        docSnapshot.docChanges().forEach(change => {
+            if (change.type === 'added') {
+                console.log('New user: ', change.doc.data());
+                add_list( change.doc.data()['time'],change.doc.data()['type'],change.doc.data()['money'], change.doc.data()['title'],change.doc.data()['id'])
+            }
+            if (change.type === 'modified') {
+                console.log('Modified user: ', change.doc.data());
+                
+            }
+            if (change.type === 'removed') {
+                console.log('Removed user: ', change.doc.data());
+            }
+        });
+        }, err => {
+        console.log(`Encountered error: ${err}`);
+        });
+        
+
+        function add_list( x, c, v,b ,del_id) {                                                                                                         //新增表格
+            let row_1 = document.createElement('tr');
+            let heading_2 = document.createElement('td');
+            heading_2.innerHTML = x;
+            let heading_3 = document.createElement('td');
+            let heading_4 = document.createElement('td');
+            heading_4.innerHTML = v;
+            let heading_5 = document.createElement('td');
+            heading_5.innerHTML = b;
+            let heading_6 = document.createElement('button')
+            heading_6.innerHTML = 'Delete';
+            let heading_7 = document.createElement('td');
+            heading_7.appendChild(heading_6);
+            let heading_8 = document.createElement('td');
+            heading_8.innerHTML = del_id;
+            
+            row_1.appendChild(heading_2);
+            row_1.appendChild(heading_3);
+            row_1.appendChild(heading_4);
+            row_1.appendChild(heading_5);
+            row_1.appendChild(heading_7);
+            row_1.appendChild(heading_8);
+
+            document.getElementById('tbody1').appendChild(row_1);
+             change_span(c)
+        }
+
+        function change_span(text) {
+            var x = document.getElementById("tbody1");                                     /////////選擇span標籤
+            var el = x.querySelectorAll('tr');
+            var elLen = el.length;
+            var el1 = el[elLen - 1].querySelectorAll('td');
+            var elbut = el[elLen - 1].querySelector('button');
+
+            var elLen1 = el1.length;
+
+            var t = document.createElement("SPAN");
+            var t1 = document.createTextNode(text);
+            t.appendChild(t1);
+            el1[elLen1 - 4].appendChild(t);
+            var el2 = el1[elLen1 - 4].querySelector('SPAN');
+           
+            var category
+            if (text === '食物') category = 'badge badge-success'                          ////////依類別設置badges
+            else if (text === '服裝') category = 'badge badge-secondary'
+            else if (text === '交通') category = 'badge badge-danger'
+            else if (text === '水電') category = 'badge badge-warning'
+            else if (text === '生活用品') category = 'badge badge-info'
+            else if (text === '娛樂') category = 'badge badge-dark'
+            else category = 'badge badge-primary'
+
+            el2.setAttribute('class', category);                                            /////////設定class
+            elbut.setAttribute('class', 'btn btn-danger'); 
+            elbut.setAttribute('type', 'button');
+        }
+
+        //日期選擇器
+        $('.datepicker').datepicker()
+        
+        $("#tbody1").on('click', 'button', function () {
+            //document.write();
+            $(this).closest('tr').remove();
+            // var deletenum = $(this).parent().prev().prev().prev().prev().prev().text()
+            // localStorage.removeItem($(this).parent().prev().prev().prev().prev().prev().text()+'st');
+            // var times=localStorage.getItem('times');
+            // for(;deletenum<times-1;deletenum++){
+                
+            //     var ittt = localStorage.getItem(parseInt(deletenum)+1 + 'st')
+            //         localStorage.setItem(deletenum+'st',ittt )
+            //     }
+            // localStorage.removeItem(parseInt(times)-1+'st');
+            // localStorage.setItem('times',times-1)
+            $("#tbody1").children().empty();
+            // check()
+            
+            
+        });
+    </script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+</body>   
+</html>
