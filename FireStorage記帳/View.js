@@ -1,9 +1,10 @@
 ﻿document.write('<script  src="Model.js"></script>');
+
     //改變選擇類別 
     function change(x) {                                                                                                                    //改變下拉選單
         document.getElementById("button1").innerHTML = x;
     }
-    
+
     //新增畫面資料
     function add_list( time1, type1, money1,note1 ,del_id) {
         if(!(typeof del_id==="undefined")){

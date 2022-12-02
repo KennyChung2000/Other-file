@@ -16,21 +16,15 @@
         const db = firebase.firestore();
 
         //上傳資料
-        function save() {                                                                                                                       //儲存輸入資料
-            // var times = localStorage.getItem('times');
-            var time_select = document.getElementById("time_value").value;
-            var category = document.getElementById("button1").innerHTML;
-            var cash = document.getElementById("cash_input").value;
-            var remark = document.getElementById("remark").value;
-            var doc_id;
-            if(cash!=""){
+        function save(time_select,category,cash,remark) {                                                                                                                      //儲存輸入資料
+            if(cash!=""  & category!="項目" ){
                 //上傳
                 db.collection('users')
                 .add({
-                time:time_select,
-                type:category,
-                money:cash,
-                title:remark
+                    time:time_select,
+                    type:category,
+                    money:cash,
+                    title:remark
                 })
                 .then(function(docRef) {
                     console.log('Document written with ID: ', docRef.id)
@@ -46,7 +40,10 @@
                 .catch(function(error) {
                     console.error('Error adding document: ', error)
                 })
-             }
+            }
+            else{
+                alert("未輸入金額或選擇項目");
+            }
         }
 
       
