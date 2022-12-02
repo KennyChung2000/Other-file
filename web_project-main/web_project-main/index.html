@@ -193,10 +193,9 @@
             localStorage.removeItem($(this).parent().prev().prev().prev().prev().prev().text()+'st');
             var times=localStorage.getItem('times');
             for(;deletenum<times-1;deletenum++){
-                
                 var ittt = localStorage.getItem(parseInt(deletenum)+1 + 'st')
                     localStorage.setItem(deletenum+'st',ittt )
-                }
+            }
             localStorage.removeItem(parseInt(times)-1+'st');
             localStorage.setItem('times',times-1)
             $("#tbody1").children().empty();
