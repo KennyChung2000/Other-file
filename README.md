@@ -1,5 +1,6 @@
 # `第一次markdown測試`
  ![image]( https://github.com/KennyChung2000/Other-file/blob/main/README_PIC/2127237449.webp "MarkDown")
+## `JS CODE SHOW SPACE`
 ```js
     function save(time_select,category,cash,remark) {                                                                                                                      
             if(cash!=""  & category!="項目" ){
