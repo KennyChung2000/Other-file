@@ -23,7 +23,8 @@
 
 ## `閱讀物`
  <!-- ![image]( https://github.com/KennyChung2000/Other-file/blob/main/README_PIC/2127237449.webp "MarkDown") -->
- <img src=https://github.com/KennyChung2000/Other-file/blob/main/README_PIC/2127237449.webp  width = "100" height = "100" alt="pic" align=center /><img src=https://ithelp.ithome.com.tw/upload/images/20210919/200019765tqejxO3mC.png  width = "100" height = "100" alt="pic" align=center /><img src=https://ithelp.ithome.com.tw/upload/images/20210921/20001976eyDoHUDsDB.png  width = "100" height = "100" alt="pic" align=center />
+ <!-- <img src=https://github.com/KennyChung2000/Other-file/blob/main/README_PIC/2127237449.webp  width = "100" height = "100" alt="pic" align=center /> -->
+ <img src=https://ithelp.ithome.com.tw/upload/images/20210919/200019765tqejxO3mC.png  width = "300" height = "500" alt="pic" align=center /><img src=https://ithelp.ithome.com.tw/upload/images/20210921/20001976eyDoHUDsDB.png  width = "300" height = "500" alt="pic" align=center />
 
 ## `JS CODE SHOW SPACE`
 ```js
