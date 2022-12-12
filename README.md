@@ -1,7 +1,7 @@
 # `第一次markdown測試`
 ## `代辦事項`
 >###### 搬家:
->>* 直接載  
+>>~~直接載~~  
 >>* 機車托運  
 >>~~詢問大型垃圾 舊衣回收箱~~  
 >>~~筆電回收~~  
@@ -13,16 +13,19 @@
 >>* git版控是如何為共同編寫程式省時間的?  
 >>* MarkDowm語法  
 >>* 設置github page  
+>>* System Analysis
+>>* Clean Code 
 
 >###### 當兵準備:
 >>* 3合1沐浴乳  
 >>* 牙刷牙膏  
 >>* 衛生紙(大)(小)  
->>* Commit Change test  
 
-## `圖片測試`
+## `閱讀物`
  <!-- ![image]( https://github.com/KennyChung2000/Other-file/blob/main/README_PIC/2127237449.webp "MarkDown") -->
  <img src=https://github.com/KennyChung2000/Other-file/blob/main/README_PIC/2127237449.webp  width = "100" height = "100" alt="pic" align=center />
+ <img src=https://ithelp.ithome.com.tw/upload/images/20210919/200019765tqejxO3mC.png  width = "100" height = "100" alt="pic" align=center />
+ <img src=https://ithelp.ithome.com.tw/upload/images/20210921/20001976eyDoHUDsDB.png  width = "100" height = "100" alt="pic" align=center />
 
 ## `JS CODE SHOW SPACE`
 ```js
